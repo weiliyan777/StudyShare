@@ -156,4 +156,13 @@ public class UserDaoImpl implements UserDao{
         List<User> users=mongoTemplate.find(query,User.class,"User");
         return users;
     }
+
+    @Override
+    public List<User> findUsersByRolePage(int role, int pageIndex, int pageSize) {
+        Query query=new Query();
+        query.addCriteria(Criteria.where("role").is(role));
+        Pageable pageable=PageRequest.of(pageIndex,pageSize,Sort.by(Sort.Direction.ASC,"_id"));
+        query.with(pageable);
+        return mongoTemplate.find(query,User.class,"User");
+    }
 }

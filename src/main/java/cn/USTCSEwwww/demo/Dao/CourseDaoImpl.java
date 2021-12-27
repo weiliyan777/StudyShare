@@ -11,11 +11,13 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.stereotype.Repository;
 
 
 import java.awt.desktop.QuitEvent;
 import java.util.List;
 
+@Repository("CourseDao")
 public class CourseDaoImpl implements CourseDao{
     @Autowired
     private MongoTemplate mongoTemplate;
@@ -103,17 +105,37 @@ public class CourseDaoImpl implements CourseDao{
         Query query=new Query();
         query.addCriteria(Criteria.where("permission").is(permission));
         Pageable pageable=PageRequest.of(pageIndex,pageSize,Sort.by(Sort.Direction.ASC,"_id"));
-        return null;
+        query.with(pageable);
+        return mongoTemplate.find(query,Course.class,"Course");
     }
 
     @Override
-    public List<Course> findCoursesLike(String query) {
-        return null;
+    public List<Course> findCoursesLike(String likeStr) {
+        if(likeStr==null||likeStr=="")
+            return null;
+        String condition=".*?\\"+likeStr+".*";
+        Query query=new Query();
+        Criteria c1=Criteria.where("name").regex(condition);
+        Criteria c2=Criteria.where("course_id").regex(condition);
+        query.addCriteria(c1);
+        query.addCriteria(c2);
+        return mongoTemplate.find(query,Course.class,"Course");
     }
 
     @Override
-    public List<Course> findCoursesLikePage(String query, int pageIndex, int pageSize) {
-        return null;
+    public List<Course> findCoursesLikePage(String likeStr, int pageIndex, int pageSize) {
+        if(likeStr==null||likeStr=="")
+            return null;
+        String condition=".*?\\"+likeStr+".*";
+        Query query=new Query();
+        Criteria c1=Criteria.where("name").regex(condition);
+        Criteria c2=Criteria.where("course_id").regex(condition);
+        query.addCriteria(c1);
+        query.addCriteria(c2);
+
+        Pageable pageable=PageRequest.of(pageIndex,pageSize,Sort.by(Sort.Direction.ASC,"_id"));
+        query.with(pageable);
+        return mongoTemplate.find(query,Course.class,"Course");
     }
 
     @Override
@@ -123,6 +145,11 @@ public class CourseDaoImpl implements CourseDao{
 
     @Override
     public List<Course> findCourseByTeacherIdPage(String teacherId, int pageIndex, int pageSize) {
-        return null;
+        Query query=new Query();
+        Criteria c1=Criteria.where("teacherId").is(teacherId);
+        query.addCriteria(c1);
+        Pageable pageable =PageRequest.of(pageIndex,pageSize,Sort.by(Sort.Direction.ASC,"_id"));
+        query.with(pageable);
+        return mongoTemplate.find(query,Course.class,"Course");
     }
 }

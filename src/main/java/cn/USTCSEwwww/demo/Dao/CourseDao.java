@@ -24,12 +24,12 @@ public interface CourseDao {
     public List<Course> findCoursesByPermissionPage(int permission,int pageIndex,int pageSize);
     /**
      * 模糊查询
-     * @param query
+     * @param likeStr
      * @return  List<Course>
      */
-    public List<Course> findCoursesLike(String query);
+    public List<Course> findCoursesLike(String likeStr);
 
-    public List<Course> findCoursesLikePage(String query,int pageIndex,int pageSize);
+    public List<Course> findCoursesLikePage(String likeStr,int pageIndex,int pageSize);
 
     public List<Course> findCourseByTeacherId(String teacherId);
 
