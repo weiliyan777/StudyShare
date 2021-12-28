@@ -21,6 +21,9 @@ public class Record {
     @Field("file")
     private byte[] file;
 
+    @Field("upload_time")
+    private String upload_time;
+
     public String get_id() {
         return _id;
     }
@@ -60,4 +63,8 @@ public class Record {
     public void setFile(byte[] file) {
         this.file = file;
     }
+
+    public String getUpload_time() {return upload_time;}
+
+    public void setUpload_time(String upload_time) {this.upload_time = upload_time;}
 }

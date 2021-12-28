@@ -18,9 +18,11 @@ public class CourseFileController {
     @Autowired
     private CourseFileService courseFileService;
 
+
     @RequestMapping(value = "/insertOne",method = RequestMethod.POST)
     @ApiOperation(value = "/insertOne")
     public String insertOne(CourseFile courseFile){
+
         if(courseFileService.insertCourseFile(courseFile)==0)
             return "error";
         else

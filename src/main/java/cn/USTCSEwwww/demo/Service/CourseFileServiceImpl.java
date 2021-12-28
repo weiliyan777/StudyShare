@@ -15,6 +15,7 @@ public class CourseFileServiceImpl implements CourseFileService {
 
     @Override
     public int insertCourseFile(CourseFile courseFile) {
+
         return courseFileDao.insertCourseFile(courseFile);
     }
 
