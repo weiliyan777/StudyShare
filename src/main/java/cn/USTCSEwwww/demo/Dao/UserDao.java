@@ -27,4 +27,7 @@ public interface UserDao {
     public List<User> findUsersByAcademy(String academy);
 
     public List<User> findUsersByAcademyPage(String academy,int pageIndex,int pageSize);
+
+    public List<User> findUsersByRolePage(int role,int pageIndex,int pageSize);
+
 }

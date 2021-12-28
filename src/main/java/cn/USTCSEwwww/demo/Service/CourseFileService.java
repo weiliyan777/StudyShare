@@ -1,10 +1,10 @@
-package cn.USTCSEwwww.demo.Dao;
+package cn.USTCSEwwww.demo.Service;
 
 import cn.USTCSEwwww.demo.Model.CourseFile;
 
 import java.util.List;
 
-public interface CourseFileDao {
+public interface CourseFileService {
 
     public int insertCourseFile(CourseFile courseFile);
 

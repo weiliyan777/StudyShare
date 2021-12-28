@@ -24,14 +24,36 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+
+    public int deleteUser(User user) {
+        return 0;
+    }
+
+    @Override
+    public int deleteUser(List<User> users) {
+        return 0;
+    }
+
+    @Override
+    public List<User> getUsersByRole(int role, int pageIndex, int pageSize) {
+        if(pageIndex>=0)
+            return userDao.findUsersByRolePage(role,pageIndex,pageSize);
+        else
+            return null;
+    }
+
+    @Override
+
     public boolean checkPassword(User user) {
         return false;
     }
 
     @Override
     public int checkRoleAndPassword(User user) {
-        User realUser=userDao.findUserByUser_id(user.get_id());
-        if(user==null||!realUser.getPassword().equals(user.getPassword()))
+
+        User realUser=userDao.findUserByUser_id(user.getUser_id());
+
+        if(!realUser.getPassword().equals(user.getPassword()))
             return -1;//-1是账号或者密码错误
         return realUser.getRole();
     }

@@ -95,4 +95,20 @@ public class Course {
     public void setFiles(List<String> files) {
         this.files = files;
     }
+
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "_id='" + _id + '\'' +
+                ", course_id='" + course_id + '\'' +
+                ", name='" + name + '\'' +
+                ", teacherId='" + teacherId + '\'' +
+                ", permission=" + permission +
+                ", startDate='" + startDate + '\'' +
+                ", permission_students=" + permission_students +
+                ", files=" + files +
+                '}';
+    }
+
 }

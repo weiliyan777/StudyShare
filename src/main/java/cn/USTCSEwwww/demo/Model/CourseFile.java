@@ -1,6 +1,5 @@
 package cn.USTCSEwwww.demo.Model;
 
-import com.mongodb.internal.connection.Time;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -10,8 +9,8 @@ public class CourseFile {
     @Id
     private String _id;
 
-//    @Field("source_id")
-//    private String source_id;
+    @Field("name_id")
+    private int name_id;
 
     @Field("name")
     private String name;
@@ -32,7 +31,7 @@ public class CourseFile {
     private String type;
 
     @Field("upload_time")
-    private Time upload_time;
+    private String upload_time;
 
     @Field("score")
     private double score;
@@ -48,13 +47,13 @@ public class CourseFile {
         this._id = _id;
     }
 
-//    public String getSource_id() {
-//        return source_id;
-//    }
-//
-//    public void setSource_id(String source_id) {
-//        this.source_id = source_id;
-//    }
+    public int getName_id() {
+        return name_id;
+    }
+
+    public void setName_id(int name_id) {
+        this.name_id = name_id;
+    }
 
     public String getName() {
         return name;
@@ -104,11 +103,11 @@ public class CourseFile {
         this.type = type;
     }
 
-    public Time getUpload_time() {
+    public String getUpload_time() {
         return upload_time;
     }
 
-    public void setUpload_time(Time upload_time) {
+    public void setUpload_time(String upload_time) {
         this.upload_time = upload_time;
     }
 
@@ -116,7 +115,7 @@ public class CourseFile {
         return score;
     }
 
-    public void setScore(double score) {
+     public void setScore(double score) {
         this.score = score;
     }
 
