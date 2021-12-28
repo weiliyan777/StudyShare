@@ -4,11 +4,14 @@ import cn.USTCSEwwww.demo.Model.User;
 import cn.USTCSEwwww.demo.Service.UserService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
+import org.apache.tomcat.util.buf.UEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import springfox.documentation.spring.web.json.Json;
 
 @Controller
 @RequestMapping("/Login")
@@ -20,6 +23,11 @@ public class LoginController {
     @ApiOperation(value = "index")
     public String getIndex(){
         return "/Login/index";
+    }
+
+    @RequestMapping("/indexTest")
+    public String getIndexTest(){
+        return "/Course-System-front-master/login";
     }
 
     @RequestMapping("/checkLogin")
@@ -39,4 +47,22 @@ public class LoginController {
         }
         return "/Login/index";
     }
+
+    @RequestMapping("/checkLoginTest")
+    @ResponseBody
+    @ApiOperation(value = "checkLoginTest")
+    public String checkLoginTest(String user_id, String password, String ident){
+        User user=new User();
+        user.setUser_id(user_id);
+        user.setPassword(password);
+        int res= userService.checkRoleAndPassword(user);
+        if(!ident.equals(res+""))
+            return "-1";
+
+        if(res==-1)
+            return "-1";
+        else
+            return res+"";
+    }
+
 }
