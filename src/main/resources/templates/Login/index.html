@@ -1,13 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
     <meta charset="UTF-8">
-    <title>Login/index</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="/admin/layui/css/layui.css" />
+    <link rel="stylesheet" type="text/css" href="/admin/css/login.css" />
+    <link ref="stylesheet" type="text/css" href="/bootstrap/css/bootstrap-theme.css.map">
+    <link ref="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.min.css">
 </head>
+
 <body>
-账号：<input type="text" name="账号" id="user_id">
-<br/>
-密码：<input type="password" name="密码" id="password">
-<button>登录</button>
+<div class="m-login-bg">
+    <div class="m-login">
+        <h3>课程资源系统登录</h3>
+        <div class="m-login-warp">
+            <form class="layui-form" id="loginForm" action="">
+                <div class="layui-form-item">
+                    <input type="text" id="username" name="user_id" required lay-verify="required" placeholder="用户名" autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-item">
+                    <input type="password" id="password" name="password" required lay-verify="required" placeholder="密码" autocomplete="off" class="layui-input">
+                </div>
+                <div class="layui-form-item">
+                    <select id="ident" name="ident" lay-verify="required" class="layui-input">
+                        <option value="">请选择你的身份</option>
+                        <option value="2">学生</option>
+                        <option value="1">教职工</option>
+                        <option value="0">管理员</option>
+                    </select>
+                </div>
+                <div class="layui-form-item m-login-btn">
+                    <div class="layui-inline">
+                        <button type="button" class="layui-btn layui-btn-normal" id="loginButton">登录</button>
+                    </div>
+                    <div class="layui-inline">
+                        <button type="reset" class="layui-btn layui-btn-primary">取消</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="/admin/layui/layui.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="/js/jquery.cookie.js"></script>
+<script src="/js/login.js"></script>
 </body>
 </html>

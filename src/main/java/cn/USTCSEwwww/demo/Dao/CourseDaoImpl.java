@@ -28,7 +28,7 @@ public class CourseDaoImpl implements CourseDao{
         Criteria c1=Criteria.where("course_id").is(course.getCourse_id());
         query.addCriteria(c1);
         List<Course> queryCourses=mongoTemplate.find(query,Course.class,"Course");
-        if(queryCourses.size()>1)
+        if(queryCourses.size()>=1)
             return 0;
         Course res=mongoTemplate.insert(course,"Course");
         if(res!=null)
