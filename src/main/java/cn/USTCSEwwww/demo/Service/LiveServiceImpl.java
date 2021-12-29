@@ -39,4 +39,8 @@ public class LiveServiceImpl implements LiveService {
         return liveDao.deleteLive(live);
     }
 
+    @Override
+    public List<Live> findLivesByCourse_id(String course_id) {
+        return liveDao.findLiveByCourse_id(course_id);
+    }
 }

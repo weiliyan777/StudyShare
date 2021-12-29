@@ -32,14 +32,14 @@ public interface CourseService {
      * @param  user_id, course_id
      * @return 1-成功 0-失败
      */
-    public int SelectPublicCourse(int user_id,int course_id);
+    public int SelectPublicCourse(String user_id,String course_id);
 
     /**
      * 学生删除已选的公开课程 只用user_id,course_id
      * @param  user_id, course_id
      * @return 1-成功 0-失败
      */
-    public int deleteSelectedPublicCourse(int user_id,int course_id);
+    public int deleteSelectedPublicCourse(String user_id,int course_id);
 
     /**
      * 查找用户已选的某种权限（公开/私密）的课程

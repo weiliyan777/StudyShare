@@ -25,6 +25,11 @@ public class RecordServiceImpl implements RecordService{
     }
 
     @Override
+    public List<Record> findRecordsByCourse_id(String course_id) {
+        return recordDao.findRecordByCourseId(course_id);
+    }
+
+    @Override
     public List<Record> findRecordsByCourse_idPage(String course_id, int pageIndex, int pageSize) {
         return recordDao.findRecordByCourseIdPage(course_id,pageIndex,pageSize);
     }
