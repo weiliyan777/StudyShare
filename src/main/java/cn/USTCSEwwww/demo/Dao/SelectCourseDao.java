@@ -9,10 +9,12 @@ public interface SelectCourseDao {
 
     public int deleteSelectCourse(SelectCourse selectCourse);
 
+    public int deleteCourseIdInUserPublicCourse(String user_id, String course_id);
+
     public int updateSelectCourse(SelectCourse selectCourse);
 
     public List<SelectCourse> findSelectCourseByUser_id(String user_id);
 
-    public List<SelectCourse> findSelectCourseByUser_idPage(String user_id,int pageIndex,int pageSize);
+    public List<String> findCoursesByUser_idAndPermissionInPage(String user_id,int permission,int pageIndex,int pageSize);
 
 }

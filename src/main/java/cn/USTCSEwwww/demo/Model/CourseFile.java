@@ -4,10 +4,15 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.util.Arrays;
+
 @Document(collection = "Course_file")
 public class CourseFile {
     @Id
     private String _id;
+
+    @Field("cf_id")
+    private String cf_id;
 
     @Field("name_id")
     private int name_id;
@@ -45,6 +50,14 @@ public class CourseFile {
 
     public void set_id(String _id) {
         this._id = _id;
+    }
+
+    public String getCf_id() {
+        return cf_id;
+    }
+
+    public void setCf_id(String cf_id) {
+        this.cf_id = cf_id;
     }
 
     public int getName_id() {
@@ -125,5 +138,23 @@ public class CourseFile {
 
     public void setFile(byte[] file) {
         this.file = file;
+    }
+
+    @Override
+    public String toString() {
+        return "CourseFile{" +
+                "_id='" + _id + '\'' +
+                ", cf_id='" + cf_id + '\'' +
+                ", name_id=" + name_id +
+                ", name='" + name + '\'' +
+                ", upload_user='" + upload_user + '\'' +
+                ", role=" + role +
+                ", course_id='" + course_id + '\'' +
+                ", course_name='" + course_name + '\'' +
+                ", type='" + type + '\'' +
+                ", upload_time='" + upload_time + '\'' +
+                ", score=" + score +
+                ", file=" + Arrays.toString(file) +
+                '}';
     }
 }

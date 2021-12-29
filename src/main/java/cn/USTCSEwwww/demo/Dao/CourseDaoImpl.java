@@ -70,6 +70,14 @@ public class CourseDaoImpl implements CourseDao{
     }
 
     @Override
+    public Course findCourseByName(String name) {
+        Query query=new Query();
+        Criteria c1=Criteria.where("name").is(name);
+        query.addCriteria(c1);
+        return mongoTemplate.findOne(query,Course.class);
+    }
+
+    @Override
     public Course findCourseBy_id(String _id) {
         return mongoTemplate.findById(_id,Course.class);
     }

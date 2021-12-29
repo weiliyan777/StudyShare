@@ -83,6 +83,7 @@ public class LiveDaoImpl implements LiveDao{
         return lives;
     }
 
+
     @Override
     public List<Live> findLiveByAddress(String address) {
         Query query=new Query();

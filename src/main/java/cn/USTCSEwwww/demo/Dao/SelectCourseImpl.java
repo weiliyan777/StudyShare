@@ -13,6 +13,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository("SelectCourseDao")
@@ -25,6 +26,7 @@ public class SelectCourseImpl implements SelectCourseDao{
         Query query = new Query();
         Criteria criteria = Criteria.where("user_id").is(selectCourse.getUser_id());
         query.addCriteria(criteria);
+
         List<SelectCourse> querySelectCourse = mongoTemplate.find(query, SelectCourse.class, "Select_Course");
         if(querySelectCourse.size() > 0){
             return 0;
@@ -45,6 +47,25 @@ public class SelectCourseImpl implements SelectCourseDao{
         }else {
             return 0;
         }
+    }
+
+    @Override
+    public int deleteCourseIdInUserPublicCourse(String user_id, String course_id) {
+        Query query =new Query();
+        Criteria c1=Criteria.where("user_id").is(user_id);
+        query.addCriteria(c1);
+        SelectCourse selectCourse = mongoTemplate.findOne(query, SelectCourse.class, "Select_Course");
+        assert selectCourse != null;
+        List<String> publicCourses = selectCourse.getPublic_Courses();
+        if (publicCourses.isEmpty()){
+            return  0;
+        }
+        if (publicCourses.remove(course_id)){
+            selectCourse.setPublic_Courses(publicCourses);
+            updateSelectCourse(selectCourse);
+            return 1;
+        }
+        return 0;
     }
 
     @Override
@@ -74,15 +95,26 @@ public class SelectCourseImpl implements SelectCourseDao{
         return mongoTemplate.find(query, SelectCourse.class,"Select_Course");
     }
 
+
     @Override
-    public List<SelectCourse> findSelectCourseByUser_idPage(String user_id, int pageIndex, int pageSize) {
+    public List<String> findCoursesByUser_idAndPermissionInPage(String user_id, int permission , int pageIndex, int pageSize) {
         Query query = new Query();
         query.addCriteria(Criteria.where("user_id").is(user_id));
         Long count = mongoTemplate.count(query, SelectCourse.class);
         Pageable pageable = PageRequest.of(pageIndex, pageSize, Sort.by(Sort.Direction.ASC, "_id"));
         query.with(pageable);
         List<SelectCourse> selectCourses = mongoTemplate.find(query,SelectCourse.class,"Select_Course");
-//        return PageableExecutionUtils.getPage(users,pageable,"");
-        return selectCourses;
+        if(selectCourses.isEmpty()){
+            return  new ArrayList<String>();
+        }
+        else {
+            SelectCourse selectCourse = selectCourses.get(0);
+            if(permission == 0){
+                return selectCourse.getPublic_Courses();
+            }
+            else {
+                return selectCourse.getPrivate_Courses();
+            }
+        }
     }
 }

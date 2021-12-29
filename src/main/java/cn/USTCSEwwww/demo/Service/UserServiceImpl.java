@@ -83,7 +83,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public int deleteUser(User user) {
         try {
-            SelectCourse selectCourse=new SelectCourse();
+            SelectCourse selectCourse= new SelectCourse();
             List<SelectCourse> getSelectCourse = selectCourseDao.findSelectCourseByUser_id(user.getUser_id());
             if(getSelectCourse.size()!=1)
                 throw new Exception("selectCourse get error");

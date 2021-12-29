@@ -39,13 +39,14 @@ public interface CourseService {
      * @param  user_id, course_id
      * @return 1-成功 0-失败
      */
-    public int deleteSelectedPublicCourse(String user_id,int course_id);
+    public int deleteSelectedPublicCourse(String user_id,String course_id);
+
 
     /**
      * 查找用户已选的某种权限（公开/私密）的课程
      * @return
      */
-    public List<SelectCourse> findSelectCoursesByUser_idAndPermission(String user_id,int permission,int pageIndex,
+    public List<Course> findSelectCoursesByUser_idAndPermission(String user_id,int permission,int pageIndex,
                                                                       int pageSize);
 
 }

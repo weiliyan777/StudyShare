@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository("CourseService")
@@ -24,6 +25,7 @@ public class CourseServiceImpl implements CourseService{
 
     @Autowired
     LiveService liveService;
+
 
     @Autowired
     CourseFileService courseFileService;
@@ -173,12 +175,27 @@ public class CourseServiceImpl implements CourseService{
     }
 
     @Override
-    public int deleteSelectedPublicCourse(String user_id, int course_id) {
-        return 0;
+
+    public int deleteSelectedPublicCourse(String user_id, String course_id) {
+        return selectCourseDao.deleteCourseIdInUserPublicCourse(user_id,course_id);
+
     }
 
     @Override
-    public List<SelectCourse> findSelectCoursesByUser_idAndPermission(String user_id, int permission, int pageIndex, int pageSize) {
-        return null;
+    public List<Course> findSelectCoursesByUser_idAndPermission(String user_id, int permission, int pageIndex, int pageSize) {
+        List<String> coursesId = selectCourseDao.findCoursesByUser_idAndPermissionInPage(user_id, permission, pageIndex, pageSize);
+        if(coursesId.isEmpty()){
+            return  new ArrayList<Course>();
+        }
+        else {
+            List<Course> courses = new ArrayList<>();
+            for (String id: coursesId) {
+                Course course = courseDao.findCourseByCourse_id(id);
+                if(course != null){
+                    courses.add(course);
+                }
+            }
+            return courses;
+        }
     }
 }
