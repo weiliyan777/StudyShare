@@ -9,8 +9,8 @@ public class Record {
     @Id
     private String _id;
 
-//    @Field("record_id")
-//    private String record_id;
+    @Field("record_id")
+    private String record_id;
 
     @Field("course_id")
     private String course_id;
@@ -32,13 +32,13 @@ public class Record {
         this._id = _id;
     }
 
-//    public String getRecord_id() {
-//        return record_id;
-//    }
-//
-//    public void setRecord_id(String record_id) {
-//        this.record_id = record_id;
-//    }
+    public String getRecord_id() {
+        return record_id;
+    }
+
+    public void setRecord_id(String record_id) {
+        this.record_id = record_id;
+    }
 
     public String getCourse_id() {
         return course_id;

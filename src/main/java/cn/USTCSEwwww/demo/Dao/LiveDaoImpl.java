@@ -82,4 +82,12 @@ public class LiveDaoImpl implements LiveDao{
         List<Live> lives = mongoTemplate.find(query, Live.class,"Live");
         return lives;
     }
+
+
+    @Override
+    public List<Live> findLiveByAddress(String address) {
+        Query query=new Query();
+        query.addCriteria(Criteria.where("address").is(address));
+        return mongoTemplate.find(query,Live.class,"Live");
+    }
 }

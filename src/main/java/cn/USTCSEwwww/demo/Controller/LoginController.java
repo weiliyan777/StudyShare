@@ -55,14 +55,12 @@ public class LoginController {
         User user=new User();
         user.setUser_id(user_id);
         user.setPassword(password);
-        int res= userService.checkRoleAndPassword(user);
-        if(!ident.equals(res+""))
-            return "-1";
-
-        if(res==-1)
-            return "-1";
+        user.setRole(Integer.parseInt(ident));
+        int res=userService.checkRoleAndPassword(user);
+        if(res==1)
+            return "success";
         else
-            return res+"";
+            return "error";
     }
 
 }

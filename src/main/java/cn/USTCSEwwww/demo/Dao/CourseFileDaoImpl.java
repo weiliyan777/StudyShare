@@ -4,6 +4,7 @@ import cn.USTCSEwwww.demo.Model.Course;
 import cn.USTCSEwwww.demo.Model.CourseFile;
 import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -42,9 +43,12 @@ public class CourseFileDaoImpl implements CourseFileDao {
                 return  0;
             }
         }
+//        courseFile.setCf_id(courseFile.get_id());
+
         CourseFile res=mongoTemplate.insert(courseFile,"CourseFile");
-        if(res != null)
+        if(res != null) {
             return 1;
+        }
         else
             return 0;
 
@@ -67,9 +71,11 @@ public class CourseFileDaoImpl implements CourseFileDao {
         if(courseFile==null)
             return 0;
         Query query =new Query();
-        Criteria c1=Criteria.where("_id").is(courseFile.get_id());
+        String _id = courseFile.get_id();
+        Criteria c1=Criteria.where("_id").is(_id);
         query.addCriteria(c1);
         Update update=new Update();
+        update.set("cf_id",courseFile.getCf_id());
         update.set("name_id",courseFile.getName_id());
         update.set("name",courseFile.getName());
         update.set("upload_user",courseFile.getUpload_user());
@@ -90,6 +96,14 @@ public class CourseFileDaoImpl implements CourseFileDao {
     @Override
     public CourseFile findCourseFileBy_id(String _id) {
         return mongoTemplate.findById(_id,CourseFile.class,"CourseFile");
+    }
+
+    @Override
+    public CourseFile findCourseFileByName(String name) {
+        Query query=new Query();
+        Criteria c1=Criteria.where("name").is(name);
+        query.addCriteria(c1);
+        return mongoTemplate.findOne(query,CourseFile.class,"CourseFile");
     }
 
     @Override

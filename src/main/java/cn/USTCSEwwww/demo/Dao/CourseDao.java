@@ -12,6 +12,8 @@ public interface CourseDao {
 
     public int updateCourse(Course course);
 
+    public Course findCourseByName(String name);
+
     public Course findCourseBy_id(String _id);
 
     public Course findCourseByCourse_id(String course_id);
@@ -37,5 +39,8 @@ public interface CourseDao {
     public List<Course> findCourseByTeacherId(String teacherId);
 
     public List<Course> findCourseByTeacherIdPage(String teacherId,int pageIndex,int pageSize);
+
+//    public List<Course> findSelectCoursesByUser_idAndPermission(String user_id, int permission, int pageIndex, int pageSize);
+
 
 }

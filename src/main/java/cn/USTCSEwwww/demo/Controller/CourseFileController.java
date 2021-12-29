@@ -4,6 +4,7 @@ package cn.USTCSEwwww.demo.Controller;
 import cn.USTCSEwwww.demo.Model.CourseFile;
 import cn.USTCSEwwww.demo.Service.CourseFileService;
 import io.swagger.annotations.ApiOperation;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -42,7 +43,9 @@ public class CourseFileController {
     @RequestMapping(value = "/updateOne",method = {RequestMethod.POST,RequestMethod.GET})
     @ApiOperation(value = "updateOne")
     @ResponseBody
-    public String updateOne(CourseFile courseFile){
+    public String updateOne( CourseFile courseFile){
+        String _id = courseFile.get_id();
+        String out = courseFile.toString();
         if(courseFileService.updateCourseFile(courseFile)==0)
             return "error";
         else

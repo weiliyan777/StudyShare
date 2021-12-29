@@ -14,6 +14,8 @@ public interface CourseFileDao {
 
     public CourseFile findCourseFileBy_id(String _id);
 
+    public  CourseFile findCourseFileByName(String name);
+
     public List<CourseFile> findCourseFileByCourse_id(String course_id);
 
     public List<CourseFile> findAllCourseFile();

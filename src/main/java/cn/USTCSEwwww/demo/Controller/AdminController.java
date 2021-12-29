@@ -21,13 +21,13 @@ public class AdminController {
 
     @PostMapping("/insertOne")
     @ApiOperation(value = "Admin/insertOne")
+    @ResponseBody
     public String insertOne(User user){
 
        if(userService.insertUser(user)==0)
-
-           return "error";
+           return "/Admin/index";
        else
-           return "success";
+           return "/Admin/index";
     }
 
 
