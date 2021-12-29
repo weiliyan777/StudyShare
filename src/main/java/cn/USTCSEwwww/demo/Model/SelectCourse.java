@@ -17,11 +17,11 @@ public class SelectCourse {
     @Field("user_id")
     private String user_id;
 
-    @Field("type")
-    private int type;
+    @Field("Private_Courses")
+    private List<String> Private_Courses;
 
-    @Field("courses")
-    private List<String> courses;
+    @Field("Public_Courses")
+    private List<String> Public_Courses;
 
     public String get_id() {
         return _id;
@@ -39,19 +39,19 @@ public class SelectCourse {
         this.user_id = user_id;
     }
 
-    public int getType() {
-        return type;
+    public List<String> getPrivate_Courses() {
+        return Private_Courses;
     }
 
-    public void setType(int type) {
-        this.type = type;
+    public void setPrivate_Courses(List<String> private_Courses) {
+        Private_Courses = private_Courses;
     }
 
-    public List<String> getCourses() {
-        return courses;
+    public List<String> getPublic_Courses() {
+        return Public_Courses;
     }
 
-    public void setCourses(List<String> courses) {
-        this.courses = courses;
+    public void setPublic_Courses(List<String> public_Courses) {
+        Public_Courses = public_Courses;
     }
 }

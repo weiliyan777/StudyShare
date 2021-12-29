@@ -3,13 +3,18 @@ package cn.USTCSEwwww.demo.Service;
 import cn.USTCSEwwww.demo.Model.Course;
 import cn.USTCSEwwww.demo.Model.CourseFile;
 import cn.USTCSEwwww.demo.Model.SelectCourse;
+import cn.USTCSEwwww.demo.Model.User;
 
 import java.util.List;
 
 public interface CourseService {
     public int insertCourse(Course course);
 
+    public int insertCourses(List<Course> courses);
+
     public int deleteCourse(Course course);
+
+    public int deleteCourse(List<Course> courses);
 
     public int updateCourse(Course course);
 
@@ -21,21 +26,20 @@ public interface CourseService {
 
     public List<Course> findCoursesPublic(int pageIndex,int pageSize);
 
+
     /**
      * 学生选择公开的课程
-     * @param courseFile
-     * @return
+     * @param  user_id, course_id
+     * @return 1-成功 0-失败
      */
-    public int SelectPublicCourse(CourseFile courseFile);
+    public int SelectPublicCourse(int user_id,int course_id);
 
     /**
-     * 学生删除已选的公开课程
-     * @param courseFile
-     * @return
+     * 学生删除已选的公开课程 只用user_id,course_id
+     * @param  user_id, course_id
+     * @return 1-成功 0-失败
      */
-    public int deleteSelectedPublicCourse(CourseFile courseFile);
-
-    public List<SelectCourse> findSelectCoursesByUser_id(String user_id,int pageIndex,int pageSize);
+    public int deleteSelectedPublicCourse(int user_id,int course_id);
 
     /**
      * 查找用户已选的某种权限（公开/私密）的课程
@@ -43,4 +47,5 @@ public interface CourseService {
      */
     public List<SelectCourse> findSelectCoursesByUser_idAndPermission(String user_id,int permission,int pageIndex,
                                                                       int pageSize);
+
 }

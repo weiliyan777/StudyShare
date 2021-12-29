@@ -32,7 +32,7 @@ public class UserDaoImpl implements UserDao{
         query.addCriteria(c1);
         List<User> queryUsers= mongoTemplate.find(query,User.class,"User");
         if(queryUsers.size()>0)
-                return 0;
+            return 0;
         //进行插入
         User res= mongoTemplate.insert(user,"User");
         if(res!=null)

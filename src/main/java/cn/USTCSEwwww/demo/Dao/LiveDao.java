@@ -16,4 +16,6 @@ public interface LiveDao {
     public List<Live> findLiveByCourse_idAndStatus(String course_id,int status);
 
     public List<Live> findLiveByCourse_idAndStatusPage(String course_id,int status,int pageIndex,int pageSize);
+
+    public List<Live> findLiveByAddress(String address);
 }
