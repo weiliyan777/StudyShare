@@ -42,6 +42,13 @@ public class RecordDaoImpl implements RecordDao{
     }
 
     @Override
+    public Record findRecordByRecord_id(String record_id) {
+        Query query=new Query();
+        query.addCriteria(Criteria.where("record_id").is(record_id));
+        return mongoTemplate.findOne(query,Record.class,"Record");
+    }
+
+    @Override
     public List<Record> findRecordByCourseId(String course_id) {
         Query query=new Query();
         Criteria c1=Criteria.where("course_id").is(course_id);

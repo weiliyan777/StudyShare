@@ -54,7 +54,7 @@ public class UserDaoImpl implements UserDao{
     public int updateUser(User user) {
         if(user!=null){
         Query query=new Query();
-        Criteria c1=Criteria.where("_id").is(user.get_id());
+        Criteria c1=Criteria.where("user_id").is(user.getUser_id());
         query.addCriteria(c1);
 
         Update update=new Update();

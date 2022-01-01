@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Repository("RecordService")
-@Transactional(rollbackFor = Exception.class)
+//@Transactional(rollbackFor = Exception.class)
 public class RecordServiceImpl implements RecordService{
     @Autowired
     private RecordDao recordDao;
@@ -20,8 +20,21 @@ public class RecordServiceImpl implements RecordService{
     }
 
     @Override
+    public Record findRecordByRecord_id(String record_id) {
+        return  recordDao.findRecordByRecord_id(record_id);
+    }
+
+    @Override
     public int deleteRecord(Record record) {
-        return recordDao.deleteRecord(record);
+        try {
+            Record getRecord=recordDao.findRecordByRecord_id(record.getRecord_id());
+            if(getRecord==null)
+                throw new Exception(record.getRecord_id()+"录播文件没有找到");
+            return recordDao.deleteRecord(getRecord);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
     }
 
     @Override

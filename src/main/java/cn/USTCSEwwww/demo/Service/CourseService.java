@@ -18,6 +18,12 @@ public interface CourseService {
 
     public int updateCourse(Course course);
 
+    public List<String> getPrivateCoursePermission_students(String course_id);
+
+    public int addPrivateCoursePermission_students(String course_id,String user_id);
+
+    public int deletePrivateCoursePermission_students(String course_id,String user_id);
+
     public List<Course> findCoursesByTeacherId(String teacherId,int pageIndex,int pageSize);
 
     public Course findCoursesByCourse_Id(String course_id);

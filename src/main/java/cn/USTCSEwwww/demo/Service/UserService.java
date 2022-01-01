@@ -31,4 +31,7 @@ public interface UserService {
      * @return
      */
     public List<User> getUsersAllByRole(int role,int pageIndex,int pageSize);
+
+    public User getUserByUser_id(String user_id);
+
 }
