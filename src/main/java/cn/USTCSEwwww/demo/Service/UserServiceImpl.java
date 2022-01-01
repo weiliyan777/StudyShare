@@ -17,7 +17,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Repository("UserService")
-@Transactional(rollbackFor = Exception.class)
+//@Transactional(rollbackFor = Exception.class)
 public class UserServiceImpl implements UserService{
 
     @Autowired
@@ -83,13 +83,16 @@ public class UserServiceImpl implements UserService{
     @Override
     public int deleteUser(User user) {
         try {
+            User getUser = userDao.findUserByUser_id(user.getUser_id());
+            if(getUser==null)
+                throw new Exception(user.getUser_id()+"没有找到");
             SelectCourse selectCourse= new SelectCourse();
             List<SelectCourse> getSelectCourse = selectCourseDao.findSelectCourseByUser_id(user.getUser_id());
             if(getSelectCourse.size()!=1)
                 throw new Exception("selectCourse get error");
             selectCourse= getSelectCourse.get(0);
 //            List<String> publicCourses=selectCourse.getPublic_Courses();
-            List<String> privateCourses=selectCourse.getPublic_Courses();
+            List<String> privateCourses=selectCourse.getPrivate_Courses();
             for(int i=0;i<privateCourses.size();i++)
             {
                 Course course= courseDao.findCourseByCourse_id(privateCourses.get(i));
@@ -104,7 +107,7 @@ public class UserServiceImpl implements UserService{
             }
             if(selectCourseDao.deleteSelectCourse(selectCourse)!=1)
                 throw new Exception(user.getUser_id()+"'s selectCourses delete error");
-            if(userDao.deleteUser(user)!=1)
+            if(userDao.deleteUser(getUser)!=1)
                 throw new Exception(user.getUser_id()+"delete error");
             return 1;
 

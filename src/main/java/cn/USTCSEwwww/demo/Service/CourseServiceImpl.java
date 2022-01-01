@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository("CourseService")
-@Transactional(rollbackFor = Exception.class)
+//@Transactional(rollbackFor = Exception.class)
 public class CourseServiceImpl implements CourseService{
     @Autowired
     CourseDao courseDao;
