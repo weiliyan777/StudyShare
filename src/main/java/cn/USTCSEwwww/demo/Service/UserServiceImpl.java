@@ -166,4 +166,9 @@ public class UserServiceImpl implements UserService{
 //        return null;
         return userDao.findUsersByRolePage(role,pageIndex,pageSize);
     }
+
+    @Override
+    public User getUserByUser_id(String user_id) {
+        return userDao.findUserByUser_id(user_id);
+    }
 }

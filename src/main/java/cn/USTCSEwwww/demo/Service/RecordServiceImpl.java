@@ -20,6 +20,11 @@ public class RecordServiceImpl implements RecordService{
     }
 
     @Override
+    public Record findRecordByRecord_id(String record_id) {
+        return  recordDao.findRecordByRecord_id(record_id);
+    }
+
+    @Override
     public int deleteRecord(Record record) {
         return recordDao.deleteRecord(record);
     }

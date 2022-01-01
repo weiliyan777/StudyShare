@@ -30,4 +30,5 @@ public interface UserDao {
 
     public List<User> findUsersByRolePage(int role,int pageIndex,int pageSize);
 
+
 }

@@ -134,6 +134,75 @@ public class CourseServiceImpl implements CourseService{
     }
 
     @Override
+    public List<String> getPrivateCoursePermission_students(String course_id) {
+        try {
+            Course course=courseDao.findCourseByCourse_id(course_id);
+            if(course==null){
+                throw  new Exception(course_id+"查找课程失败");
+            }
+            return course.getPermission_students();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
+    @Override
+    public int addPrivateCoursePermission_students(String course_id,String user_id) {
+        try {
+            Course course=courseDao.findCourseByCourse_id(course_id);
+            if(course==null){
+                throw  new Exception(course_id+"查找课程失败");
+            }
+            List<String> permission_students=course.getPermission_students();
+            if(course.getPermission()==0)
+                throw new Exception(course_id+"是公开课，不能插入私有成员");
+            if(permission_students.contains(user_id))
+                throw new Exception(user_id+"已经在私有课程列表中");
+            SelectCourse selectCourse= selectCourseDao.findSelectCourseByUser_id(user_id).get(0);
+            List<String> privateCourseId=selectCourse.getPrivate_Courses();
+            privateCourseId.add(course_id);
+            selectCourse.setPrivate_Courses(privateCourseId);
+            if(selectCourseDao.updateSelectCourse(selectCourse)!=1){
+                throw new Exception(user_id+"selectCourse插入私有课失败");
+            }
+            return 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    @Override
+    public int deletePrivateCoursePermission_students(String course_id,String user_id) {
+        try {
+            Course course=courseDao.findCourseByCourse_id(course_id);
+            if(course==null){
+                throw  new Exception(course_id+"查找课程失败");
+            }
+            List<String> permission_students=course.getPermission_students();
+            if(course.getPermission()==0)
+                throw new Exception(course_id+"是公开课，不能删除私有成员");
+            if(!permission_students.contains(user_id))
+                throw new Exception(user_id+"不在私有课程列表中");
+            SelectCourse selectCourse= selectCourseDao.findSelectCourseByUser_id(user_id).get(0);
+            List<String> privateCourseId=selectCourse.getPrivate_Courses();
+            if(!privateCourseId.contains(course_id))
+                throw new Exception(course_id+"不在"+user_id+"的私有课列表中");
+            privateCourseId.remove(course_id);
+            selectCourse.setPrivate_Courses(privateCourseId);
+            if(selectCourseDao.updateSelectCourse(selectCourse)!=1){
+                throw new Exception(user_id+"selectCourse插入私有课失败");
+            }
+            return 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    @Override
     public List<Course> findCoursesByTeacherId(String teacherId, int pageIndex, int pageSize) {
         return courseDao.findCourseByTeacherIdPage(teacherId,pageIndex,pageSize);
     }

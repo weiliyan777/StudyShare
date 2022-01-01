@@ -7,6 +7,7 @@ import java.util.List;
 public interface RecordService {
     public int insertRecord(Record record);
     public int deleteRecord(Record record);
+    public Record findRecordByRecord_id(String record_id);
     public List<Record> findRecordsByCourse_id(String course_id);
     public List<Record> findRecordsByCourse_idPage(String course_id,int pageIndex,int pageSize);
 }
