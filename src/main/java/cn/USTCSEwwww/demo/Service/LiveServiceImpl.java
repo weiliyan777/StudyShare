@@ -24,7 +24,7 @@ public class LiveServiceImpl implements LiveService {
                 }
             }
             List<Live> existsAddressLive = liveDao.findLiveByAddress(live.getAddress());
-            if (existedLives.size() >= 1) {
+            if (existsAddressLive.size() >= 1) {
                 throw new Exception(live.getAddress() + "Address has used");
             }
             return liveDao.insertLive(live);
@@ -36,7 +36,17 @@ public class LiveServiceImpl implements LiveService {
 
     @Override
     public int deleteLive(Live live) {
-        return liveDao.deleteLive(live);
+        try {
+            List<Live> getlives = liveDao.findLiveByAddress(live.getAddress());
+            if(getlives.size()==0||getlives.size()>1) {
+                throw new Exception(live.getAddress()+"查询得一个或者多个记录");
+            }
+            live.set_id(getlives.get(0).get_id());
+            return liveDao.deleteLive(live);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
     }
 
     @Override

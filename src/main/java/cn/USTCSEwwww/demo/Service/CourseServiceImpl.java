@@ -40,15 +40,26 @@ public class CourseServiceImpl implements CourseService{
             if(findCourse!=null){
                 throw new Exception(course.getCourse_id()+"course_id has used");
             }
-            List<String> permissionStudents=course.getPermission_students();
-            for(int i=0;i<permissionStudents.size();i++){
-                SelectCourse selectCourse=selectCourseDao.findSelectCourseByUser_id(permissionStudents.get(i)).get(0);
-                List<String> privateCourses=selectCourse.getPrivate_Courses();
-                if(!privateCourses.contains(course.getCourse_id())){
-                    privateCourses.add(course.getCourse_id());
-                    selectCourse.setPrivate_Courses(privateCourses);
-                    selectCourseDao.updateSelectCourse(selectCourse);
+            if(course.getPermission()==1) {//非公开的
+                List<String> permissionStudents = course.getPermission_students();
+                for (int i = 0; i < permissionStudents.size(); i++) {
+                    String user_id = permissionStudents.get(i);
+                    List<SelectCourse> selectCourses = selectCourseDao.findSelectCourseByUser_id(user_id);
+                    if (selectCourses.size() == 0)
+                        throw new Exception(permissionStudents.get(i) + "的 selectCourse 没有发现");
+                    SelectCourse selectCourse = selectCourses.get(0);
+                    List<String> privateCourses = selectCourse.getPrivate_Courses();
+                    if (!privateCourses.contains(course.getCourse_id())) {
+                        privateCourses.add(course.getCourse_id());
+                        selectCourse.setPrivate_Courses(privateCourses);
+                        selectCourseDao.updateSelectCourse(selectCourse);
+                    }
                 }
+            }
+            else if(course.getPermission()==0){//公开课没有permission列表
+            }
+            else {
+                throw  new Exception("权限的类型必须是为0/1");
             }
             return courseDao.insertCourse(course);
         }catch (Exception e){
@@ -121,14 +132,93 @@ public class CourseServiceImpl implements CourseService{
 
     @Override
     public int updateCourse(Course course) {
-        try{
-            if(deleteCourse(course)!=0||insertCourse(course)!=0){
-                return 1;
-            }else {
-                throw new Exception("插入失败");
+        try {
+            Course getCourse =courseDao.findCourseByCourse_id(course.getCourse_id());
+            if(getCourse==null)
+                throw new Exception(course.getCourse_id()+"不存在");
+            course.set_id(getCourse.get_id());
+            return courseDao.updateCourse(course);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return  0;
+        }
+//        try{
+//            if(deleteCourse(course)!=0||insertCourse(course)!=0){
+//                return 1;
+//            }else {
+//                throw new Exception("插入失败");
+//            }
+//        }catch (Exception e){
+//            System.out.println(e.toString());
+//            return 0;
+//        }
+    }
+
+    @Override
+    public List<String> getPrivateCoursePermission_students(String course_id) {
+        try {
+            Course course=courseDao.findCourseByCourse_id(course_id);
+            if(course==null){
+                throw  new Exception(course_id+"查找课程失败");
             }
-        }catch (Exception e){
-            System.out.println(e.toString());
+            return course.getPermission_students();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
+    @Override
+    public int addPrivateCoursePermission_students(String course_id,String user_id) {
+        try {
+            Course course=courseDao.findCourseByCourse_id(course_id);
+            if(course==null){
+                throw  new Exception(course_id+"查找课程失败");
+            }
+            List<String> permission_students=course.getPermission_students();
+            if(course.getPermission()==0)
+                throw new Exception(course_id+"是公开课，不能插入私有成员");
+            if(permission_students.contains(user_id))
+                throw new Exception(user_id+"已经在私有课程列表中");
+            SelectCourse selectCourse= selectCourseDao.findSelectCourseByUser_id(user_id).get(0);
+            List<String> privateCourseId=selectCourse.getPrivate_Courses();
+            privateCourseId.add(course_id);
+            selectCourse.setPrivate_Courses(privateCourseId);
+            if(selectCourseDao.updateSelectCourse(selectCourse)!=1){
+                throw new Exception(user_id+"selectCourse插入私有课失败");
+            }
+            return 1;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return 0;
+        }
+    }
+
+    @Override
+    public int deletePrivateCoursePermission_students(String course_id,String user_id) {
+        try {
+            Course course=courseDao.findCourseByCourse_id(course_id);
+            if(course==null){
+                throw  new Exception(course_id+"查找课程失败");
+            }
+            List<String> permission_students=course.getPermission_students();
+            if(course.getPermission()==0)
+                throw new Exception(course_id+"是公开课，不能删除私有成员");
+            if(!permission_students.contains(user_id))
+                throw new Exception(user_id+"不在私有课程列表中");
+            SelectCourse selectCourse= selectCourseDao.findSelectCourseByUser_id(user_id).get(0);
+            List<String> privateCourseId=selectCourse.getPrivate_Courses();
+            if(!privateCourseId.contains(course_id))
+                throw new Exception(course_id+"不在"+user_id+"的私有课列表中");
+            privateCourseId.remove(course_id);
+            selectCourse.setPrivate_Courses(privateCourseId);
+            if(selectCourseDao.updateSelectCourse(selectCourse)!=1){
+                throw new Exception(user_id+"selectCourse插入私有课失败");
+            }
+            return 1;
+        } catch (Exception e) {
+            e.printStackTrace();
             return 0;
         }
     }
@@ -158,7 +248,7 @@ public class CourseServiceImpl implements CourseService{
         try {
             List<SelectCourse> selectCourses = selectCourseDao.findSelectCourseByUser_id(user_id);
             if(selectCourses.size()==0||selectCourses.size()>1){
-                throw new Exception("SelectCourse 对象不唯一");
+                throw new Exception("SelectCourse 对象或为0不唯一");
             }
             SelectCourse selectCourse=selectCourses.get(0);
             List<String> publicCourse=selectCourse.getPublic_Courses();
@@ -175,7 +265,6 @@ public class CourseServiceImpl implements CourseService{
     }
 
     @Override
-
     public int deleteSelectedPublicCourse(String user_id, String course_id) {
         return selectCourseDao.deleteCourseIdInUserPublicCourse(user_id,course_id);
 

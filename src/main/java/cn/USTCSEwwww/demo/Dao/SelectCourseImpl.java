@@ -60,7 +60,8 @@ public class SelectCourseImpl implements SelectCourseDao{
         if (publicCourses.isEmpty()){
             return  0;
         }
-        if (publicCourses.remove(course_id)){
+        if (publicCourses.contains(course_id)){
+            publicCourses.remove(course_id);
             selectCourse.setPublic_Courses(publicCourses);
             updateSelectCourse(selectCourse);
             return 1;
@@ -71,7 +72,7 @@ public class SelectCourseImpl implements SelectCourseDao{
     @Override
     public int updateSelectCourse(SelectCourse selectCourse) {
         Query query =new Query();
-        Criteria c1=Criteria.where("user_id").is(selectCourse.getUser_id());
+        Criteria c1=Criteria.where("_id").is(selectCourse.get_id());
         query.addCriteria(c1);
         SelectCourse querySelectCourse=mongoTemplate.findOne(query,SelectCourse.class,"Select_Course");
         if(querySelectCourse==null)
