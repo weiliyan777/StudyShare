@@ -34,7 +34,7 @@ public class User {
     @Field("major")
     private String major;
 
-    @Field("academy")
+        @Field("academy")
     private String academy;
 
     @Field("sign")

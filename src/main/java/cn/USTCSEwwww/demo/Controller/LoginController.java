@@ -4,17 +4,10 @@ import cn.USTCSEwwww.demo.Model.User;
 import cn.USTCSEwwww.demo.Service.UserService;
 import cn.USTCSEwwww.demo.vm.LoginReq;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import org.apache.tomcat.util.buf.UEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.servlet.server.Session;
-import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import springfox.documentation.spring.web.json.Json;
 
 @RestController
 @RequestMapping("/Login")
@@ -33,14 +26,18 @@ public class LoginController {
 //        return "/Course-System-front-master/login";
 //    }
 
-//    @RequestMapping("/checkLogin")
-//    @ApiOperation(value = "checkLogin")
-//    public String checkLogin(String user_id,String password,int role){
+//    @RequestMapping("/checkLoginJsp")
+//    @ApiOperation(value = "checkLoginJsp")
+//    public String checkLoginJsp(String user_id,String password,int role,HttpSession session){
 //        User user=new User();
 //        user.setUser_id(user_id);
 //        user.setPassword(password);
 //        user.setRole(role);
 //        int res= userService.checkRoleAndPassword(user);
+//        if(res!=-1){
+//            session.setAttribute("user",user.getUser_id());
+//            session.setAttribute("role",user.getRole());
+//        }
 //        if(res==0){
 //            return "/Admin/index";
 //        }else  if(res==1){

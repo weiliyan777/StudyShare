@@ -144,6 +144,8 @@ public class UserServiceImpl implements UserService{
     @Override
     public int checkRoleAndPassword(User user) {
         User realUser=userDao.findUserByUser_id(user.getUser_id());
+        if(realUser==null)
+            return -1;
         if(!realUser.getPassword().equals(user.getPassword()))
             return -1;//-1是账号或者密码错误
         if(realUser.getRole()==user.getRole())

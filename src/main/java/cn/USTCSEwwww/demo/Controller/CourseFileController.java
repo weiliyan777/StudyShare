@@ -3,6 +3,7 @@ package cn.USTCSEwwww.demo.Controller;
 
 import cn.USTCSEwwww.demo.Model.CourseFile;
 import cn.USTCSEwwww.demo.Service.CourseFileService;
+import cn.USTCSEwwww.demo.vm.id;
 import io.swagger.annotations.ApiOperation;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,12 +59,20 @@ public class CourseFileController {
         return courseFileService.findCourseFileBy_id(_id);
     }
 
-    @RequestMapping(value = "/findMany",method = RequestMethod.GET)
-    @ApiOperation(value = "findMany")
-    @ResponseBody
-    public List<CourseFile> findCourseFilesByCourse_id(String course_id) {
-        return courseFileService.findCourseFileByCourse_id(course_id);
-    }
+//    @RequestMapping(value = "/findMany",method = RequestMethod.GET)
+//    @ApiOperation(value = "findMany")
+//    @ResponseBody
+//    public List<CourseFile> findCourseFilesByCourse_id(String course_id) {
+//        return courseFileService.findCourseFileByCourse_id(course_id);
+//    }
+@RequestMapping(value = "/findMany",method = RequestMethod.POST)
+@ApiOperation(value = "findMany")
+@ResponseBody
+public List<CourseFile> findCourseFilesByCourse_id(@RequestBody id item) {
+      List<CourseFile>  res= courseFileService.findCourseFileByCourse_id(item.getId());
+      return res;
+}
+
 
     @RequestMapping(value = "/findAll",method = RequestMethod.GET)
     @ApiOperation(value = "findAll")

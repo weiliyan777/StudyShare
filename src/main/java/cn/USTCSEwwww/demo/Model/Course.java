@@ -110,5 +110,4 @@ public class Course {
                 ", files=" + files +
                 '}';
     }
-
 }

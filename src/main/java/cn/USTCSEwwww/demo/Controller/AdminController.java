@@ -2,13 +2,11 @@ package cn.USTCSEwwww.demo.Controller;
 
 import cn.USTCSEwwww.demo.Model.User;
 import cn.USTCSEwwww.demo.Service.UserService;
+import cn.USTCSEwwww.demo.vm.id;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -55,12 +53,18 @@ public class AdminController {
         return userService.deleteUser(users);
     }
 
+//    @PostMapping("/getUserByUser_id")
+//    @ApiOperation(value = "getUserByUser_id")
+//    public User getUserByUser_id(String user_id)
+//    {
+//        return userService.getUserByUser_id(user_id);
+//    }
     @PostMapping("/getUserByUser_id")
     @ApiOperation(value = "getUserByUser_id")
-    public User getUserByUser_id(String user_id)
+    public User getUserByUser_id(@RequestBody id item)
     {
-        return userService.getUserByUser_id(user_id);
+        User res= userService.getUserByUser_id(item.getId());
+        return res;
     }
-
 
 }

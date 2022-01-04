@@ -105,7 +105,9 @@ public class CourseDaoImpl implements CourseDao{
 
     @Override
     public List<Course> findCoursesByPermission(int permission) {
-        return null;
+        Query query=new Query();
+        query.addCriteria(Criteria.where("permission").is(permission));
+        return mongoTemplate.find(query,Course.class,"Course");
     }
 
     @Override

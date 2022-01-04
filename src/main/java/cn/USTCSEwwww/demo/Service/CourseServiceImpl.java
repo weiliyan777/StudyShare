@@ -240,7 +240,7 @@ public class CourseServiceImpl implements CourseService{
 
     @Override
     public List<Course> findCoursesPublic(int pageIndex, int pageSize) {
-        return courseDao.findCoursesByPermission(0);
+        return courseDao.findCoursesByPermissionPage(0,pageIndex,pageSize);
     }
 
     @Override
